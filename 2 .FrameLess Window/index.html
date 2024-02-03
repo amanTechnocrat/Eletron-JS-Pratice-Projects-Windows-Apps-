@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body style="user-select: none;-webkit-app-region: drag">
+    <h1>Parent</h1>
+    <br>
+    <br>
+    <br>
+    <input type="range" style="-webkit-app-region: no-drag" />
+    <br>
+    <button onclick="zoomIn()">Zoom in</button>
+    <button onclick="zoomOut()">Zoom out</button>
+    <button onclick="sendData()">Send data to main</button>
+</body>
+
+<script>
+    const { webFrame, ipcRenderer } = require('electron')
+    function zoomIn() {
+        webFrame.setZoomFactor(webFrame.getZoomFactor() + 1)
+    }
+
+    function zoomOut() {
+        webFrame.setZoomFactor(webFrame.getZoomFactor() - 1)
+    }
+    function sendData(){
+        console.log("working")
+        ipcRenderer.send('msg','Data from index')
+        ipcRenderer.on('backMsg',(event,data)=>{
+            console.log(data)
+        })
+    }
+</script>
+
+</html>
